@@ -83,5 +83,13 @@
 
           const data = JSON.parse(text);
           console.log('✅ Block created:', data);
-          msg.te
+          msg.textContent = `✅ ${data.message}`;
+        } catch (err) {
+          console.error('Unexpected error:', err);
+          msg.textContent = '❌ Unexpected error occurred.';
+        }
+      };
+    </script>
+  </body>
+</html>
 
