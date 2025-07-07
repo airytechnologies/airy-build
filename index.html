@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>airy</title>
+  </head>
+  <body>
+    <h1>airy — block by breath</h1>
+    <button id="breathe-btn">breathe</button>
+
+    <script>
+      document.getElementById('breathe-btn').onclick = async () => {
+        try {
+          const res = await fetch('/api/breathe', { method: 'POST' });
+          const text = await res.text();
+
+          if (!res.ok) {
+            console.error('API error:', res.status, res.statusText, text);
+            alert(`❌ Error: ${text}`);
+            return;
+          }
+
+          const data = JSON.parse(text);
+          console.log('✅ Block created:', data);
+          alert(`✅ ${data.message}`);
+        } catch (err) {
+          console.error('Unexpected error:', err);
+          alert('❌ Unexpected error. See console for details.');
+        }
+      };
+    </script>
+  </body>
+</html>
