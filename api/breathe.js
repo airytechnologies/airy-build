@@ -69,4 +69,11 @@ module.exports = async function handler(req, res) {
 
     if (!commit.ok) {
       const err = await commit.text();
-      throw new Error(`GitHub error: ${err}
+      throw new Error(`GitHub error: ${err}`);
+    }
+
+    return res.status(200).json({ message: `block_${next} created`, metadata: content });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
