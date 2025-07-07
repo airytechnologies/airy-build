@@ -39,14 +39,18 @@ module.exports = async function handler(req, res) {
     const timestampNano = process.hrtime.bigint().toString();
 
     const content = {
-      data: {
-        timestamp: timestamp.toISOString(),
-        timestampNano,
-        userAgent: req.headers['user-agent'],
+      version: "1.0.0",
+      schema_ref: "airy.schema.001",
+      timestamp_human: timestamp.toISOString(),
+      timestamp_nano: timestampNano,
+      agent: {
+        type: "human",
         ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-        parent,
+        userAgent: req.headers['user-agent'],
+        referrer: req.headers['referer'] || null
       },
-      meta: {},
+      parent,
+      meta: {}
     };
 
     const hash = crypto.createHash('sha256').update(JSON.stringify(content)).digest('hex');
