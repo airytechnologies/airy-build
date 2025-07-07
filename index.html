@@ -2,29 +2,92 @@
 <html>
   <head>
     <title>airy</title>
+    <style>
+      body {
+        background: #fff;
+        color: #000;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      button:hover {
+        background-color: #222;
+      }
+
+      #message {
+        margin-top: 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 2rem;
+        font-size: 0.85rem;
+        color: #555;
+      }
+
+      footer i {
+        font-style: italic;
+        color: #777;
+      }
+    </style>
   </head>
   <body>
     <h1>airy — block by breath</h1>
     <button id="breathe-btn">breathe</button>
+    <div id="message"></div>
 
+    <footer>
+      © 2025 Airy Technologies, LLC. All rights reserved.<br />
+      <i>System and Method for Rhythm-Based Blockchain Infrastructure Without Cryptocurrency – Patents Pending.</i>
+    </footer>
+
+    <!-- ✅ Script placed correctly here -->
     <script>
       document.getElementById('breathe-btn').onclick = async () => {
+        const msg = document.getElementById('message');
+        msg.textContent = 'breathing...';
+
         try {
           const res = await fetch('/api/breathe', { method: 'POST' });
           const text = await res.text();
 
           if (!res.ok) {
             console.error('API error:', res.status, res.statusText, text);
-            alert(`❌ Error: ${text}`);
+            msg.textContent = `❌ ${text}`;
             return;
           }
 
           const data = JSON.parse(text);
           console.log('✅ Block created:', data);
-          alert(`✅ ${data.message}`);
+          msg.textContent = `✅ ${data.message}`;
         } catch (err) {
           console.error('Unexpected error:', err);
-          alert('❌ Unexpected error. See console for details.');
+          msg.textContent = '❌ Unexpected error occurred.';
         }
       };
     </script>
